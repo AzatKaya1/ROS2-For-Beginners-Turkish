@@ -1,9 +1,6 @@
 # ROS2 Başlangıç Seviyesinden İleri Seviyeye
 (ROS2 From Beginner To Advanced Level)
 
-
-
-
 ##  **ROS2 AKIŞ ŞEMASI (ROS2 FLOW CHART)** 
 
 
@@ -67,10 +64,10 @@
 🔹​​ Bu komut, o terminalin hafızasına senin yeni paketinin yolunu (path) ekler. Bunu yapmazsan "Package not found" hatası alırsın.
 
 <br>
-<br>
 
-◼️ ROS2 projeleri workspace içinde çalışır. Bu bir nevi “proje klasörü”.
+## 1. Workspace (Çalışma Alanı)
 
+ROS2 projeleri workspace içinde çalışır. Bu bir nevi “proje klasörü”.
 İç yapı:
 ```sh
 
@@ -81,9 +78,8 @@ ros2_ws/
  └─ log/
 
 ```
-<br>
 
-◼️ Paket (Package) Oluşturma
+## 2. Paket (Package) Oluşturma
   
   Example: **ros2 pkg create** --build-type ament_cmake my_robot_description
   
@@ -95,27 +91,95 @@ ros2_ws/
 
   ament_python = (Python)
   
-<br>
 
-◼️ URDF (Robot Tanımı)
+## 3. URDF (Robot Tanımı)
+
+Örnek: 
 ```sh
 mkdir urdf
 nano urdf/my_robot.urdf
 ```
 ROS robotu fiziksel olarak tanımaz. Biz tanıtırız.
 
-
 <br>
 
+URDF Nedir?
+
+Robotun:
+- Şekli
+- Boyutu
+- Parçaları (kemik)(link)
+- Bağlantıları (eklem)(joint)
+
+Örnek: 
+
+**XML Format**
+```sh
+<link name="base_link">
+```
+
+**link** = fiziksel parça
+
+**joint** = parçaları bağlayan şey
+
+## 4. Launch Dosyası
+
+Örnek:
+```sh
+nano launch/display.launch.py
+
+```
+ROS'ta tek tek komut yazmak yerine tek tuşla her şeyi başlatma amacı güdüyoruz. Bu yüzden Launch dosyaları kullanılır.
+
+## 5. Build (Derleme)
+Örnek:
+```sh
+colcon build --symlink-install
+```
+ROS senin yazdığını direkt çalıştırmaz.
+
+Önce derler sonra düzenler en son hazır hale getirir.
+
+**colcon nedir?**
+
+ROS2'nin build tool'u.
+
+**--symlink-install nedir?**
+
+Kod değiştirince tekrar build yapmamıza gerek kalmaz.
 
 
+## 6. Source Komutu
+
+```sh
+source install/setup.bash
+
+```
+ROS'ta oluşturduğumuz workspace'i kendi sistemine kaynak etmesi gerektiğini belirtiyoruz(Benim workspace'im de artık sistemin bir parçası).
+
+**Eğer bu işlemi yapmazsak ROS oluşturduğumuz paketi görmez.**
+
+## 7. Çalıştırma (Run)
+Örnek prompt:
+```sh
+ros2 launch my_robot_description display.launch.py
+```
+
+# ÖZET AKIŞ 
+
+```sh
+1. Workspace oluştur
+2. Package oluştur
+3. URDF yaz (robotu tanımla)
+4. Launch yaz (nasıl çalışacak?)
+5. Build et (colcon)
+6. Source yap (tanıt)
+7. Run (çalıştır)
+```
 
 
+**UNUTMA!**
 
-
-
-
-
-
+ROS Ezberlenmez → **kurulur + bozulur + düzeltilir**
 
 
