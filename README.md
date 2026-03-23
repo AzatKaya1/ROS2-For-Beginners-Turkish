@@ -1,3 +1,5 @@
+![ROS2](https://img.shields.io/badge/ros2-humble-blue?logo=ros)
+![Ubuntu](https://img.shields.io/badge/Ubuntu-22.04-E95420?logo=ubuntu&logoColor=white)
 # ROS2 Başlangıç Seviyesinden İleri Seviyeye
 (ROS2 From Beginner To Advanced Level)
 
