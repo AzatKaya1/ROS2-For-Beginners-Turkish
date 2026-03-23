@@ -1,8 +1,9 @@
-![ROS2](https://img.shields.io/badge/ros2-humble-blue?logo=ros)
 ![Ubuntu](https://img.shields.io/badge/Ubuntu-22.04-E95420?logo=ubuntu&logoColor=white)
+![ROS2](https://img.shields.io/badge/ros2-humble-blue?logo=ros)
 # ROS2 Başlangıç Seviyesinden İleri Seviyeye
 (ROS2 From Beginner To Advanced Level)
 
+Bu kılavuz/rehber ROS2 hakkında bilinmesi gereken tüm bilgileri içermeyi amaçlar.
 
 ## Ön Koşullar (Prerequisites)
 
@@ -12,13 +13,40 @@ ROS2 Versiyonu: Tercihen **ROS2 Humble**
 
 
 
-
 ##  **ROS2 AKIŞ ŞEMASI (ROS2 FLOW CHART)** 
 
 
-**Workspace** → **Package** → **URDF (Unified Robot Description Format) (Robot Tanımı)** → Node’s → **Launch** → **Build** → **Source** → Run
+**Workspace** → **Package** → **URDF (Unified Robot Description Format) (Robot Tanımı)** → Nodes → Topics → **Launch** → **Build** → **Source** → Run
 
-----
+
+
+## Node (Düğüm) ve Topic (Konu) Nedir?
+
+ROS2'de çalışan her bir program **Node** (Düğüm)'dür.
+
+Yani; kamera, lidar, robot kontrol bunlar birer Node (Düğüm)'dür. Burada ROS2, Node'ların birbirleriyle konuştuğu sistemdir.
+
+Fakat Node'lar birbirine direkt bağlanamaz. Arada **Topic** olmalı.
+
+Publisher → Topic → Subscriber
+
+Publisher veri gönderir. Topic verinin gittiği kanaldır. Subscriber ise veriyi alır.
+
+Örnek:
+
+```sh
+Lidar Node ──► /scan ──► RViz
+Lidar Node ──► /scan ──► Navigation Node
+Camera Node ──► /image ──► AI Node
+
+```
+Lidar Node = Publisher
+
+/scan = Topic
+
+RViz = Subscriber
+
+---
 
  1. Çalışma Alanı (Workspace) Oluşturma 
  2. Paket Oluşturma 
@@ -174,7 +202,7 @@ ROS'ta oluşturduğumuz workspace'i kendi sistemine kaynak etmesi gerektiğini b
 **Eğer bu işlemi yapmazsak ROS oluşturduğumuz paketi görmez.**
 
 ## 7. Çalıştırma (Run)
-Örnek prompt:
+Örnek komut:
 ```sh
 ros2 launch my_robot_description display.launch.py
 ```
