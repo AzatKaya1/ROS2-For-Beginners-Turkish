@@ -7,21 +7,19 @@ Bu kılavuz ROS2 hakkında adım adım bilinmesi gereken temel kavramları, kull
 
 **İçindekiler**
 
-- Ön Koşullar
-- ROS2 Akış Şeması
-- Temel Kavramlar
-- Adım Adım Kurulum ↓↓↓
-  
-      1. Workspace Oluşturma
-      2. Paket Oluşturma
-      3. URDF Yazımı
-      4. Launch Dosyası
-      5. Build (Derleme)
-      6. Source
-      7. Çalıştırma
-- Sık Yapılan Bazı Hatalar
-
-
+- [Ön Koşullar](#ön-koşullar-prerequisites)
+- [ROS2 Akış Şeması](#ros2-akış-şeması-ros2-flow-chart)
+- [ROS2 Genel Mantık](#ros2-genel-mantık)
+- [Kavram Tanımları](#kavram-tanımları)
+- Adım Adım Kurulum
+  - [1. Workspace Oluşturma](#1-workspace-çalışma-alanı)
+  - [2. Paket Oluşturma](#2-paket-package-oluşturma)
+  - [3. URDF Yazımı](#3-urdf-robot-tanımı)
+  - [4. Launch Dosyası](#4-launch-dosyası)
+  - [5. Build (Derleme)](#5-build-derleme)
+  - [6. Source](#6-source-kaynak-gösterme)
+  - [7. Çalıştırma](#7-çalıştırma-run)
+- [Sık Yapılan Bazı Hatalar](#sık-yapılan-bazı-hatalar)
 
 ## Ön Koşullar (Prerequisites)
 
@@ -32,24 +30,24 @@ ROS2 Versiyonu: Tercihen **ROS2 Humble**
 
 ##  **ROS2 Akış Şeması (ROS2 Flow Chart)** 
 
-```sh
+```plaintext
 Workspace → Package → URDF (Unified Robot Description Format) (Robot Tanımı) → Nodes → Topics → Launch → Build → Source → Run
 ```
 Bir ROS2 projesinde her zaman bu sıra geçerlidir. **Adımları atlama!**
 
-## Temel Kavramlar
+## ROS2 Genel Mantık
 
 **Node (Düğüm) Nedir?**
 
 ROS2'de çalışan her bir program **Node**'dur. Kamera, lidar, robot kontrolü, motor kontrolü - bunların her biri ayrı Node'dur. Burada ROS2, Node'ların birbirleriyle konuştuğu sistemdir. İyi bir Node **tek bir şey** gerçekleştirir!
 
 Node listeleme:
-```sh
+```bash
 ros2 node list
 ```
 
 Node'dan info alma:
-```sh
+```bash
 ros2 node info /node_name
 ```
 
@@ -63,7 +61,7 @@ Publisher veri gönderir. Topic verinin gittiği kanaldır. Subscriber ise veriy
 
 Örnek:
 
-```sh
+```plaintext
 Lidar Node ──► /scan ──► RViz 
 Lidar Node ──► /scan ──► Navigation Node
 Camera Node ──► /image ──► AI Node
@@ -77,44 +75,38 @@ Camera Node ──► /image ──► AI Node
 
 Topic promptları:
 
-```sh
+```bash
 ros2 topic list
 ros2 topic echo /scan
 ros2 topic info /scan
 ```
 
+[Ubuntu22.04 ROS2Humble Kurulum](https://github.com/AzatKaya1/Ubuntu22.04-ROS2Humble-ArduPilotwSITL-Gazebo-SetupGuide)
 
-[Ubuntu22.04-ROS2Humble-Kurulum](https://github.com/AzatKaya1/Ubuntu22.04-ROS2Humble-ArduPilotwSITL-Gazebo-SetupGuide)
+Yukarıdaki kurulumu yaptıktan sonra Node - Topic mantığını daha rahat kavraman için aşağıdaki örneği yapabilirsin.
 
+Önce yeni bir terminal açıp ortamı source ediyoruz. Daha sonra terminale C++ dilinde konuşma emri veriyoruz.
 
+**Önemli Not: Terminale komutları her zaman satır satır yazın!** Aksi halde ileriki zamanlarda sıkıntı yaşarsınız.
 
+```bash
+source /opt/ros/humble/setup.bash
+ros2 run demo_nodes_cpp talker
+```
 
+Yukarıdaki promptu **satır satır** terminale yazdıktan sonra, yeni bir terminal açıp python dilinde dinleyici promptu yazıyoruz.
+```bash
+source /opt/ros/humble/setup.bash
+ros2 run demo_nodes_py listener
+```
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-## Adım Adım Kurulum
-
- 1. Çalışma Alanı (Workspace) Oluşturma 
- 2. Paket Oluşturma 
- 3. URDF (Unified Robot Description Format) Yazımı 
- 4. Launch Dosyaları 
- 5. Derleme Aşaması  
- 6. Kaynak Gösterme
+ve **BOOOM!** C++ dilinde konuşturduğumuz terminalde, Python kodlama diliyle başka bir terminaldeki mesajı dinleyebiliyoruz. :) Buradan çıkarılması gereken ders; ROS bize dil fark etmeksizin, haberleşme imkanı sunar.
 
 <br>
+
+
+## Kavram Tanımları
+
 
  🧱 **Çalışma Alanı (Workspace) Oluşturma** (mkdir -p ~/ros2_ws/src)
 
@@ -164,18 +156,29 @@ ros2 topic info /scan
 
 <br>
 
+
+## Adım Adım Kurulum
+
+ 1. Çalışma Alanı (Workspace) Oluşturma 
+ 2. Paket Oluşturma 
+ 3. URDF (Unified Robot Description Format) Yazımı 
+ 4. Launch Dosyaları 
+ 5. Derleme Aşaması  
+ 6. Kaynak Gösterme
+ 7. Çalıştırma (Run)
+
 ## 1. Workspace (Çalışma Alanı)
 
 ROS2 projeleri workspace içinde çalışır. Bu bir nevi proje klasörüdür. Her projede sadece **bir kez** oluşturulur.
 
-```sh
+```bash
 mkdir -p ~/ros2_ws/src
 cd ~/ros2_ws/src
 
 ```
 
 Derleme aracı olan **colcon** bu hiyerarşiyi arar:
-```sh
+```plaintext
 
 ros2_ws/
  ├── src/        ← kodların burada (package'ler)
@@ -188,7 +191,7 @@ Unutma! **colcon build** komutu src içindeki kodları alır, build ve install k
 ## 2. Paket (Package) Oluşturma
   
   Her yeni modül (kamera işleme, robot tasarımı, navigasyon) için ayrı bir paket oluşturulur. Bu paketler robotun tarifini    tutar. (URDF)
-```sh
+```bash
 cd ~/ros2_ws/src
 ros2 pkg create --build-type ament_cmake my_robot_description
 ```
@@ -201,7 +204,7 @@ ROS2'de her şey paket içinde yaşar. Büyük projelerde onlarca paket olabilir
   
 Paket oluşturulduğunda şu dosyalar gelir:
 
-```sh
+```plaintext
 
 my_robot_description/
  ├── CMakeLists.txt        ← derleme tarifi (neyi derle, nereye koy)
@@ -216,7 +219,7 @@ my_robot_description/
 
 URDF'i bir kez yazarız. Daha sonra üstüne ekleyerek büyütürüz.
 
-```sh
+```bash
 cd ~/ros2_ws/src/my_robot_description
 mkdir urdf
 nano urdf/my_robot.urdf
@@ -239,7 +242,7 @@ Robotun:
 **joint** = parçaları bağlayan şey
 
 Basit bir URDF örneği: (**XML Format**)
-```sh
+```xml
 <?xml version="1.0"?>
 <robot name="simple_robot">
   <link name="base_link">
@@ -255,15 +258,15 @@ Basit bir URDF örneği: (**XML Format**)
 </robot>
 ```
 
-**"Yazdığınız URDF'i kontrol etmek için (check_urdf urdf/dosya_adı) komutunu kullanabilirsiniz."**
+**"Yazdığınız URDF'i kontrol etmek için** ``` check_urdf urdf/dosya_adı ``` **komutunu kullanabilirsiniz."**
 
-Not: Büyük projelerde URDF xacro ile yazılır. Xacro değişken ve makro desteği sunar — aynı kodu 4 tekerlek için 4 kez yazmak zorunda kalmayız.
+**Not:** Büyük projelerde URDF **xacro** ile yazılır. Xacro değişken ve makro desteği sunar. Aynı kodu 4 tekerlek için 4 kez yazmak zorunda kalmayız.
 
 ## 4. Launch Dosyası
 
 Her proje için bir launch dosyası yazılır. Zamanla birden fazla launch dosyan olabilir (simülasyon için, gerçek robot için, test için ayrı ayrı).
 
-```sh
+```bash
 mkdir launch
 nano launch/display.launch.py
 ```
@@ -272,7 +275,7 @@ ROS'ta tek tek komut yazmak yerine tek tuşla her şeyi başlatma amacı güdüy
 
 Örnek launch dosyası:
 
-```sh
+```python
 from launch import LaunchDescription
 from launch_ros.actions import Node
 import os
@@ -301,7 +304,7 @@ def generate_launch_description():
 
 CMakeLists.txt'e eklenmesi zorunlu satırlar:
 
-```sh
+```cmake
 install(DIRECTORY urdf launch
   DESTINATION share/${PROJECT_NAME}
 )
@@ -314,7 +317,7 @@ install(DIRECTORY urdf launch
 ## 5. Build (Derleme)
 ROS2 yazdığın dosyaları doğrudan çalıştıramaz. ``` colcon build  ``` onları ``` install/  ```  klasörüne işlenmiş hâlde koyar. Ayrıca build işlemini her zaman **workspace kökünden** çalıştır.
 
-```sh
+```bash
 cd ~/ros2_ws
 colcon build --symlink-install
 ```
@@ -328,7 +331,7 @@ colcon build --symlink-install
 
 ## 6. Source (Kaynak Gösterme)
 Bu adımı her yeni terminal açtığında tekrarlamamız gerekir:
-```sh
+```bash
 source install/setup.bash
 ```
 Çünkü ``` colcon build ``` paketi sisteme **kaydetmez.** Sadece ``` install/ ``` klasörüne koyar. ``` source ``` komutu ise o klasörü terminale tanıtır. Yapmazsan **ROS2 paketini görmez!**
@@ -337,7 +340,7 @@ ROS'ta oluşturduğumuz workspace'i kendi sistemine kaynak etmesi gerektiğini b
 
 Eğer ki bu işlemi her terminal açtığımızda yazmak istemiyorsak çok pratik bir yöntem olan ``` .bashrc ``` 'e eklememiz lazım.
 
-```sh
+```bash
 echo "source ~/ros2_ws/install/setup.bash" >> ~/.bashrc
 source ~/.bashrc
 ```
@@ -346,7 +349,7 @@ Artık her yeni terminalde ortam otomatik olarak **source** olacaktır!
 ## 7. Çalıştırma (Run)
 
 Örnek komut:
-```sh
+```bash
 ros2 launch my_robot_description display.launch.py
 ```
 
