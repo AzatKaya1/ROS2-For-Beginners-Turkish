@@ -43,9 +43,19 @@ Bir ROS2 projesinde her zaman bu sıra geçerlidir. **Adımları atlama!**
 
 ROS2'de çalışan her bir program **Node**'dur. Kamera, lidar, robot kontrolü, motor kontrolü - bunların her biri ayrı Node'dur. Burada ROS2, Node'ların birbirleriyle konuştuğu sistemdir. İyi bir Node **tek bir şey** gerçekleştirir!
 
+Node listeleme:
+```sh
+ros2 node list
+```
+
+Node'dan info alma:
+```sh
+ros2 node info /node_name
+```
+
 **Topic(Konu) Nedir?**
 
-Node'lar birbirine **doğrudan bağlanamaz.** Aralarında **Topic** adı verilem kanal olmalıdır.
+Node'lar birbirine **doğrudan bağlanamaz.** Aralarında **Topic** adı verilen kanal olmalıdır.
 
 Publisher → Topic → Subscriber
 
@@ -59,11 +69,41 @@ Lidar Node ──► /scan ──► Navigation Node
 Camera Node ──► /image ──► AI Node
 
 ```
-Lidar Node = Publisher
+• Lidar Node = Publisher
 
-/scan = Topic
+• /scan = Topic
 
-RViz = Subscriber
+• RViz = Subscriber
+
+Topic promptları:
+
+```sh
+ros2 topic list
+ros2 topic echo /scan
+ros2 topic info /scan
+```
+
+
+[Ubuntu22.04-ROS2Humble-Kurulum](https://github.com/AzatKaya1/Ubuntu22.04-ROS2Humble-ArduPilotwSITL-Gazebo-SetupGuide)
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 ## Adım Adım Kurulum
 
